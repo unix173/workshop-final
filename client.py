@@ -17,7 +17,7 @@ while True:
         # print >>sys.stderr, 'sending "%s"' % message
         if(message == 'get-temperature'):
             sock.send(message)
-            data = sock.recv(16)
+            data = sock.recv(16) # here we say we receive a double number
             print("Temperature is: ", data)
         else:
             sock.sendall(message)
