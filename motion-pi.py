@@ -18,21 +18,15 @@ song = pygame.mixer.Sound('motion-sound.ogg')
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-v", "--video", help="path to the video file")
 ap.add_argument("-a", "--min-area", type=int, default=500, help="minimum area size")
 args = vars(ap.parse_args())
 
-# if the video argument is None, then we are reading from webcam
-if args.get("video", None) is None:
-    camera = cv2.VideoCapture(0)
-    #time.sleep(1)
-    camera.set(3, 320)
-    camera.set(4, 240)
+MIN_AREA = args["min_area"]
 
-
-# otherwise, we are reading from a video file
-else:
-    camera = cv2.VideoCapture(args["video"])
+camera = cv2.VideoCapture(0)
+#time.sleep(1)
+camera.set(3, 320)
+camera.set(4, 240)
 
 # initialize the first frame in the video stream
 firstFrame = None
@@ -61,21 +55,29 @@ while True:
     # first frame
     frameDelta = cv2.absdiff(firstFrame, gray)
 
+    # Threshold -- 
+    # get only segments (contures) in the difference 
+    # of two consecutive frames. Only pixels with certain level are kept (others 0)
+
+
     # Office light off values (140,255)
     # thresh = cv2.threshold(frameDelta, 140, 255, cv2.THRESH_BINARY)[1]
 
     # Office light on
     thresh = cv2.threshold(frameDelta, 82, 255, cv2.THRESH_BINARY)[1]
+    
     # dilate the thresholded image to fill in holes, then find contours
     # on thresholded image
     thresh = cv2.dilate(thresh, None, iterations=2)
+
+    # Finds contours in the image
     (cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
                                  cv2.CHAIN_APPROX_SIMPLE)
 
     # loop over the contours
     for c in cnts:
         # if the contour is too small, ignore it
-        if cv2.contourArea(c) < args["min_area"]:
+        if cv2.contourArea(c) < MIN_AREA:
             continue
 
         # compute the bounding box for the contour, draw it on the frame,
