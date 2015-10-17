@@ -1,3 +1,10 @@
+##########################################################
+# Client program that with request for temperature
+# Shown (client socket)
+# - Everything is implemented except opening client socket
+# - Show Server example first
+##########################################################
+
 import socket
 import sys
 

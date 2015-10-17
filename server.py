@@ -1,3 +1,13 @@
+######################################################
+# Server program for responding to get-temperature 
+# Shown(sockets, arguments, try-except-finally, if-elif)
+# 1. Create server with IP:PORT
+# 2. Open connection
+# 3. Show exception handling
+# 3. Handle messaging (send/receive) 
+######################################################
+
+
 import socket
 import sys
 import Adafruit_DHT
