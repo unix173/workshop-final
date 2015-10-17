@@ -18,12 +18,13 @@ sock.connect(server_address)
 
 while True:
     try:
-        # Send data
+        # get user input
         inp = raw_input("Enter option:")
+	#Convert message to string for sending through socket
         message = str(inp)
-        # print >>sys.stderr, 'sending "%s"' % message
+        print >>sys.stderr, 'sending "%s"' % message
         if(message == 'get-temperature'):
-            sock.send(message)
+            sock.sendall(message)
             data = sock.recv(16) # here we say we receive a double number
             print("Temperature is: ", data)
         else:
