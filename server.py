@@ -10,6 +10,7 @@ server_name = sys.argv[1]
 server_address = (server_name, 10000)
 sock.bind(server_address)
 sock.listen(1)
+print >> sys.stderr, 'Waiting for connection on ', server_address
 
 while True:
     connection, client_address = sock.accept()
